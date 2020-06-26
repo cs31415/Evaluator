@@ -15,6 +15,7 @@ namespace Evaluator
 
         private bool _loading;
         private SettingsManager<EvalSettings> _settingsManager;
+        private Dictionary<string, dynamic> _compiledInstances;
 
         #region Properties
         public string MethodCode => txtSrcCode.Text;
@@ -64,6 +65,7 @@ namespace Evaluator
             _loading = true;
             InitializeComponent();
             _settingsManager = new SettingsManager<EvalSettings>(OnLoadSettings, OnSaveSettings);
+            _compiledInstances = new Dictionary<string, dynamic>();
 
             txtSrcCode.SetupStyle(new CSharpStyle());
 
@@ -159,27 +161,35 @@ namespace Evaluator
             InvokeIfRequired(x =>
             {
                 Thread.Sleep(500);
-
-                var result = CompileHelper.Compile(txtSrcCode.Text);
-
-                var sbErrors = new StringBuilder();
-                if (result.Errors.Count > 0)
+                var hash = Hasher.GetHashString(txtSrcCode.Text);
+                if (!_compiledInstances.ContainsKey(hash))
                 {
-                    sbErrors.AppendLine("*** Compilation Errors: ***");
-                    foreach (CompilerError error in result.Errors)
+                    var result = CompileHelper.Compile(txtSrcCode.Text);
+
+                    var sbErrors = new StringBuilder();
+                    if (result.Errors.Count > 0)
                     {
-                        sbErrors.AppendLine($"[{error.Line},{error.Column}] {error.ErrorNumber}: {error.ErrorText}");
+                        sbErrors.AppendLine("*** Compilation Errors: ***");
+                        foreach (CompilerError error in result.Errors)
+                        {
+                            sbErrors.AppendLine(
+                                $"[{error.Line},{error.Column}] {error.ErrorNumber}: {error.ErrorText}");
+                        }
+
+                        txtMessages.Text = sbErrors.ToString();
+                        return;
                     }
 
-                    txtMessages.Text = sbErrors.ToString();
-                    return;
+                    var assembly = result.CompiledAssembly;
+
+                    _compiledInstances.Clear();
+                    _compiledInstances.Add(hash, assembly.CreateInstance("Evaluator.Evaluator"));
                 }
 
-                var assembly = result.CompiledAssembly;
+                dynamic inst = _compiledInstances[hash];
 
                 txtMessages.Text = "Compile succeeded";
 
-                dynamic inst = assembly.CreateInstance("Evaluator.Evaluator");
                 var vals = new Dictionary<string, dynamic>();
                 foreach (DataGridViewRow row in gridVars.Rows)
                 {
