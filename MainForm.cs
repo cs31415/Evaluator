@@ -2,14 +2,10 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using Eval;
 
 namespace Evaluator
 {
@@ -27,7 +23,7 @@ namespace Evaluator
         {
             get
             {
-                var matches = Regex.Matches(MethodCode, @"input\.(?<var>\w+)");
+                var matches = Regex.Matches(MethodCode, $@"{CompileHelper.InputVariableIdentifier}\.(?<var>\w+)");
                 var vars = new HashSet<string>();
                 foreach (Match match in matches)
                 {
@@ -211,9 +207,16 @@ namespace Evaluator
                     }
                 }
 
-                dynamic evalResult = inst.Eval(vals);
+                var outputs = new Dictionary<string, object>();
+                inst.Eval(vals, outputs);
 
-                txtResults.Text = evalResult?.ToString();
+                var sbOutputs = new StringBuilder();
+                foreach (var key in outputs.Keys)
+                {
+                    sbOutputs.AppendLine($"{key} = {outputs[key]}");
+                }
+
+                txtResults.Text = sbOutputs.ToString();
             }, null);
         }
 

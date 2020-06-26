@@ -8,22 +8,28 @@ namespace Evaluator
 {
     public class CompileHelper
     {
+        public static string InputVariableIdentifier = "i";
+        public static string OutputVariableIdentifier = "o";
+
         public static CompilerResults Compile(string expression)
         {
-            List<string> lines = expression.Split(new[] { ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            var lastLine = $"return {lines.Last()};";
-            var methodCode = lines.Take(lines.Count - 1).Aggregate("", (r, i) => r + i + ";");
-            methodCode = $"{methodCode}{lastLine}";
+            var methodCode = expression;
+
+            var methodCodeExpanded = Regex.Replace(methodCode, $@"(?:{InputVariableIdentifier}\.)(?<name>\w+)", "input[\"${name}\"]");
+            methodCodeExpanded = Regex.Replace(methodCodeExpanded, $@"(?:{OutputVariableIdentifier}\.)(?<name>\w+)", "output[\"${name}\"]");
 
             var classCode = @"
                 using System;
-                using System.Collections.Generic; 
+                using System.Collections.Generic;
+                using System.Linq;
+                using System.Text.RegularExpressions;
+
                 namespace Evaluator
                 { 
                     public class Evaluator
                     {
-                        public dynamic Eval(Dictionary<string,dynamic> input) {" +
-                            Regex.Replace(methodCode, @"(?:input\.)(?<name>\w+)", "input[\"${name}\"]") + "} } }";
+                        public void Eval(Dictionary<string,dynamic> input, Dictionary<string,object> output) {" +
+                            methodCodeExpanded + "} } }";
 
             var provider = CodeDomProvider.CreateProvider("CSharp");
 
