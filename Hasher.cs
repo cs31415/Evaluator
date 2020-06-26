@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Evaluator
 {
+    /// <summary>
+    /// Utilities for hashing a string using SHA256
+    /// </summary>
     public class Hasher
     {
         public static byte[] GetHash(string inputString)

@@ -4,6 +4,9 @@ using ScintillaNET;
 
 namespace Evaluator
 {
+    /// <summary>
+    /// Syntax coloring for C#
+    /// </summary>
     public class CSharpStyle : IScintillaStyle
     {
         public void SetupStyle(Scintilla scintilla)

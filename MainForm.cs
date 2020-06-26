@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace Evaluator
 {
+    /// <summary>
+    /// Main application window
+    /// </summary>
     public partial class MainForm : Form
     {
         delegate void DelegateMethod(params object[] args);
@@ -162,8 +165,11 @@ namespace Evaluator
             {
                 Thread.Sleep(500);
                 var hash = Hasher.GetHashString(txtSrcCode.Text);
+
+                // If we have a compiled instance for this expression, use it
                 if (!_compiledInstances.ContainsKey(hash))
                 {
+                    // If not, compile expression
                     var result = CompileHelper.Compile(txtSrcCode.Text);
 
                     var sbErrors = new StringBuilder();
@@ -190,6 +196,7 @@ namespace Evaluator
 
                 txtMessages.Text = "Compile succeeded";
 
+                // Cast input variables to appropriate type
                 var vals = new Dictionary<string, dynamic>();
                 foreach (DataGridViewRow row in gridVars.Rows)
                 {
@@ -217,9 +224,11 @@ namespace Evaluator
                     }
                 }
 
+                // Evaluate compiled expression using supplied input variables
                 var outputs = new Dictionary<string, object>();
                 inst.Eval(vals, outputs);
 
+                // Print output variables
                 var sbOutputs = new StringBuilder();
                 foreach (var key in outputs.Keys)
                 {

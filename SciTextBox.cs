@@ -12,6 +12,9 @@ namespace Evaluator
 		HighlightWordLayer = 9
     }
 
+	/// <summary>
+	/// Scintilla Rich text editor with some enhancements
+	/// </summary>
 	public class SciTextBox : Scintilla
 	{
 		/// <summary>
