@@ -1,5 +1,5 @@
 # Evaluator
-Dynamically evaluate expressions. 
+Dynamically evaluate C# expressions. 
 
 # Usage
 ![](evaluator.jpg?raw=true)
