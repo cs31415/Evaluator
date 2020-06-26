@@ -276,7 +276,7 @@ namespace Evaluator
             this.Controls.Add(this.toolStripTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "Expression Evaluator";
+            this.Text = "Evaluator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStripTop.ResumeLayout(false);
