@@ -253,9 +253,9 @@ namespace Evaluator
             this.lblExpressionLabel.AutoSize = true;
             this.lblExpressionLabel.Location = new System.Drawing.Point(3, 4);
             this.lblExpressionLabel.Name = "lblExpressionLabel";
-            this.lblExpressionLabel.Size = new System.Drawing.Size(348, 13);
+            this.lblExpressionLabel.Size = new System.Drawing.Size(340, 13);
             this.lblExpressionLabel.TabIndex = 4;
-            this.lblExpressionLabel.Text = "Expression: (Use prefix \'i.\' for input variables and \'o.\' for output variables.)";
+            this.lblExpressionLabel.Text = "Expression: (Use prefix i. for input variables and o. for output variables.)";
             // 
             // lblInputsLabel
             // 
