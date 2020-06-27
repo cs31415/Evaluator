@@ -14,5 +14,5 @@ Compiler error messages if any are displayed in the `Messages:` pane.
 Selecting an error message navigates to the generated source and highlights the error.
 The error can be corrected in the `Expression` tab and re-evaluated.
 
-![](evaluator.jpg?raw=true)
+![](evaluator-error.jpg?raw=true)
 
