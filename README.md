@@ -9,5 +9,10 @@ Dynamically evaluate C# expressions.
 3. Click on the `Eval` button.
 
 The expression is evaluated using the supplied input values and the output variables are displayed in the `Outputs:` pane.
+
 Compiler error messages if any are displayed in the `Messages:` pane.
+Selecting an error message navigates to the generated source and highlights the error.
+The error can be corrected in the `Expression` tab and re-evaluated.
+
+![](evaluator.jpg?raw=true)
 
