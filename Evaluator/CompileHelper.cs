@@ -48,7 +48,6 @@ namespace Evaluator
             parms.ReferencedAssemblies.Add("System.Core.dll");
             parms.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
             parms.GenerateInMemory = true;
-            parms.TempFiles.KeepFiles = true;
 
             return provider.CompileAssemblyFromSource(parms, sourceCode);
         }

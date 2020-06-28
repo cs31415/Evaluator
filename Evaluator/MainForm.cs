@@ -153,6 +153,13 @@ namespace Evaluator
                 var val = settings.Variables[variable];
                 gridVars.Rows.Add(variable, val);
             }
+
+            if (!settings.Size.IsEmpty)
+            {
+                this.Location = settings.Location;
+                this.Size = settings.Size;
+                this.WindowState = settings.WindowState;
+            }
         }
 
         private EvalSettings OnSaveSettings()
@@ -173,7 +180,9 @@ namespace Evaluator
                 }
             }
             settings.Variables = vals;
-
+            settings.Location = this.Location;
+            settings.Size = this.Size;
+            settings.WindowState = this.WindowState;
             return settings;
         }
 
